@@ -41,25 +41,38 @@
         let startTime;
         let endTime;
         const records = [];
+        let timeId;
         _screen.addEventListener('click', (event) => {
             if (event.target.classList.contains('waiting')) {
                 _screen.classList.remove('waiting');
                 _screen.classList.add('ready');
                 _screen.textContent = 'Ready??';
-                setTimeout(function () {
+                timeId = setTimeout(function () {
                     startTime = new Date();
                     _screen.classList.remove('ready');
                     _screen.classList.add('now');
                     _screen.textContent = 'CLICK!';
                 }, Math.floor(Math.random() * 1000) + 2000);   // random between 2~3 sec
             } else if (event.target.classList.contains('ready')) {
+                clearTimeout(timeId);
+                _screen.classList.remove('ready');
+                _screen.classList.add('waiting');
+                alert('Too Fast!!');
+                _screen.textContent = 'Click to Start';
 
             } else if (event.target.classList.contains('now')) {
-                endTime = new Date();    
+                endTime = new Date();
                 const current = endTime - startTime;
                 records.push(current);
-                const average = records.reduce((a,c) => {return a + c}) / records.length;  // array element average
+                const average = records.reduce((a, c) => { return a + c }) / records.length;  // array element average
                 _result.textContent = `Current: ${current}ms, Average: ${average}ms`;
+                const topFive = records.sort((p, c) => p - c).slice(0, 5);
+                topFive.forEach((top, index) => {
+                    _result.append(
+                        document.createElement('br'),
+                        `${index + 1}위: ${top}ms`,
+                    );
+                })
                 startTime = null;
                 endTime = null;
                 _screen.classList.remove('now');
