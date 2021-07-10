@@ -12,7 +12,7 @@
             text-align: center;
             user-select: none;
             font-size: 40px;
-
+            margin-bottom: 10px;
         }
 
         #screen.waiting {
@@ -70,7 +70,7 @@
                 topFive.forEach((top, index) => {
                     _result.append(
                         document.createElement('br'),
-                        `${index + 1}위: ${top}ms`,
+                        `${index + 1}: ${top}ms`,
                     );
                 })
                 startTime = null;
