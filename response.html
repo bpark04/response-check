@@ -1,0 +1,62 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #screen {
+            width: 400px;
+            height: 300px;
+            text-align: center;
+            user-select: none;
+            font-size: 40px;
+
+        }
+
+        #screen.waiting {
+            background-color: aqua;
+        }
+
+        #screen.ready {
+            background-color: red;
+            color: white;
+        }
+
+        #screen.now {
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="screen" class="waiting">Click to Start</div>
+    <div id="result"></div>
+
+    <script>
+        const _screen = document.querySelector('#screen');
+        const _result = document.querySelector('#result');
+
+        _screen.addEventListener('click', (event) => {
+            if (event.target.classList.contains('waiting')) {
+                _screen.classList.remove('waiting');
+                _screen.classList.add('ready');
+                _screen.textContent = 'Ready??';
+                timeoutId = setTimeout(function () {
+                    startTime = new Date();
+                    $screen.classList.remove('ready');
+                    $screen.classList.add('now');
+                    $screen.textContent = 'CLICK!';
+                }, Math.floor(Math.random() * 1000) + 2000);   // random between 2~3 sec
+            } else if (event.target.classList.contains('ready')) {
+
+            } else if (event.target.classList.contains('now')) {
+
+            }
+        })
+
+    </script>
+</body>
+
+</html>
