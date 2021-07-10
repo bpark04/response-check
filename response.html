@@ -38,20 +38,27 @@
         const _screen = document.querySelector('#screen');
         const _result = document.querySelector('#result');
 
+        let startTime;
+        let endTime;
         _screen.addEventListener('click', (event) => {
             if (event.target.classList.contains('waiting')) {
                 _screen.classList.remove('waiting');
                 _screen.classList.add('ready');
                 _screen.textContent = 'Ready??';
-                timeoutId = setTimeout(function () {
+                setTimeout(function () {
                     startTime = new Date();
-                    $screen.classList.remove('ready');
-                    $screen.classList.add('now');
-                    $screen.textContent = 'CLICK!';
+                    _screen.classList.remove('ready');
+                    _screen.classList.add('now');
+                    _screen.textContent = 'CLICK!';
                 }, Math.floor(Math.random() * 1000) + 2000);   // random between 2~3 sec
             } else if (event.target.classList.contains('ready')) {
 
             } else if (event.target.classList.contains('now')) {
+                endTime = new Date();
+                _result.textContent = `${endTime - startTime}ms`;
+                _screen.classList.remove('now');
+                _screen.classList.add('waiting');
+                _screen.textContent = 'Click to Start';
 
             }
         })
