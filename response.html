@@ -40,6 +40,7 @@
 
         let startTime;
         let endTime;
+        const records = [];
         _screen.addEventListener('click', (event) => {
             if (event.target.classList.contains('waiting')) {
                 _screen.classList.remove('waiting');
@@ -54,12 +55,16 @@
             } else if (event.target.classList.contains('ready')) {
 
             } else if (event.target.classList.contains('now')) {
-                endTime = new Date();
-                _result.textContent = `${endTime - startTime}ms`;
+                endTime = new Date();    
+                const current = endTime - startTime;
+                records.push(current);
+                const average = records.reduce((a,c) => {return a + c}) / records.length;  // array element average
+                _result.textContent = `Current: ${current}ms, Average: ${average}ms`;
+                startTime = null;
+                endTime = null;
                 _screen.classList.remove('now');
                 _screen.classList.add('waiting');
                 _screen.textContent = 'Click to Start';
-
             }
         })
 
