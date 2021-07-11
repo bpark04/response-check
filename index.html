@@ -1,0 +1,87 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #screen {
+            width: 400px;
+            height: 300px;
+            text-align: center;
+            user-select: none;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        #screen.waiting {
+            background-color: aqua;
+        }
+
+        #screen.ready {
+            background-color: red;
+            color: white;
+        }
+
+        #screen.now {
+            background-color: greenyellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="screen" class="waiting">Click to Start</div>
+    <div id="result"></div>
+
+    <script>
+        const _screen = document.querySelector('#screen');
+        const _result = document.querySelector('#result');
+
+        let startTime;
+        let endTime;
+        const records = [];
+        let timeId;
+        _screen.addEventListener('click', (event) => {
+            if (event.target.classList.contains('waiting')) {
+                _screen.classList.remove('waiting');
+                _screen.classList.add('ready');
+                _screen.textContent = 'Ready??';
+                timeId = setTimeout(function () {
+                    startTime = new Date();
+                    _screen.classList.remove('ready');
+                    _screen.classList.add('now');
+                    _screen.textContent = 'CLICK!';
+                }, Math.floor(Math.random() * 1000) + 2000);   // random between 2~3 sec
+            } else if (event.target.classList.contains('ready')) {
+                clearTimeout(timeId);
+                _screen.classList.remove('ready');
+                _screen.classList.add('waiting');
+                alert('Too Fast!!');
+                _screen.textContent = 'Click to Start';
+
+            } else if (event.target.classList.contains('now')) {
+                endTime = new Date();
+                const current = endTime - startTime;
+                records.push(current);
+                const average = records.reduce((a, c) => { return a + c }) / records.length;  // array element average
+                _result.textContent = `Current: ${current}ms, Average: ${average}ms`;
+                const topFive = records.sort((p, c) => p - c).slice(0, 5);
+                topFive.forEach((top, index) => {
+                    _result.append(
+                        document.createElement('br'),
+                        `${index + 1}: ${top}ms`,
+                    );
+                })
+                startTime = null;
+                endTime = null;
+                _screen.classList.remove('now');
+                _screen.classList.add('waiting');
+                _screen.textContent = 'Click to Start';
+            }
+        })
+
+    </script>
+</body>
+
+</html>
